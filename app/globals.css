@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Google+Sans+Text:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --g-blue: #4285F4;
+  --g-red: #EA4335;
+  --g-yellow: #FBBC05;
+  --g-green: #34A853;
+  --g-dark: #202124;
+}
+
+html { scroll-behavior: smooth; }
+
+/* Accessible focus styles */
+:focus-visible {
+  outline: 2px solid var(--g-blue);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Skip nav */
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 999;
+  padding: 0.5rem 1rem;
+  background: var(--g-blue);
+  color: #fff;
+  border-radius: 0 0 8px 8px;
+  font-weight: 700;
+  transition: top 0.2s;
+}
+.skip-nav:focus { top: 0; }
+
+/* Fade-up utility with stagger */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(36px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%  { transform: translateY(-8px); }
+}
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes scrollUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+@keyframes scrollDown {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0); }
+}
+@keyframes marqueeReverse {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+.animate-marquee-reverse { animation: marqueeReverse 32s linear infinite; }
+
+@keyframes progressFill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes ringFill {
+  from { stroke-dashoffset: 175.9; }
+  to   { stroke-dashoffset: 0; }
+}
+
+.animate-fade-up        { animation: fadeUp 0.65s ease-out both; }
+.animate-fade-up-d1     { animation: fadeUp 0.65s 0.1s ease-out both; }
+.animate-fade-up-d2     { animation: fadeUp 0.65s 0.2s ease-out both; }
+.animate-fade-up-d3     { animation: fadeUp 0.65s 0.3s ease-out both; }
+.animate-fade-up-d4     { animation: fadeUp 0.65s 0.4s ease-out both; }
+.animate-float          { animation: float 3s ease-in-out infinite; }
+.animate-marquee        { animation: marquee 24s linear infinite; }
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+}
+
+/* City marquee */
+.marquee-track { display: flex; width: max-content; }
+
+/* Scrollbar hide for marquee */
+.overflow-x-clip { overflow-x: clip; }
+
+/* V2 noise overlay */
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Gradient text */
+.text-gradient-g {
+  background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC05, #34A853);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.text-gradient-blue-green {
+  background: linear-gradient(90deg, #4285F4, #34A853);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Remove default margin */
+body { margin: 0; }
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
