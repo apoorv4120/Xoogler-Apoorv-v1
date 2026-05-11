@@ -848,7 +848,7 @@ const NAV_LINKS = [
               <a href="https://calendar.google.com/calendar/ical/xoogler.co_events%40group.calendar.google.com/public/basic.ics"
                 className="flex items-center gap-2 transition-all hover:bg-[#1557D6] hover:shadow-md"
                 style={{
-                  fontSize: 13, fontWeight: 600, color: '#fff', textDecoration: 'none', fontFamily: GS,
+                  fontSize: 13, fontWeight: 400, color: '#fff', textDecoration: 'none', fontFamily: GS,
                   background: C.blue, borderRadius: 50, padding: '10px 20px',
                 }}>
                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
@@ -866,49 +866,69 @@ const NAV_LINKS = [
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: 16 }}>
-            {EVENTS.map((ev, i) => (
-              <Reveal key={ev.title} delay={i * 0.1}>
+          {/* Bento box layout: large card left, two stacked right */}
+          <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr]" style={{ gap: 12, alignItems: 'stretch' }}>
+
+            {/* Large featured card */}
+            <Reveal>
               <article
-                className="rounded-2xl overflow-hidden bg-white group cursor-pointer transition-all duration-300 hover:-translate-y-1"
+                className="rounded-2xl overflow-hidden group cursor-pointer relative h-[220px] lg:h-[clamp(340px,48vw,520px)]"
                 style={{ boxShadow: elev1 }}
                 onMouseEnter={e => (e.currentTarget.style.boxShadow = elev2)}
                 onMouseLeave={e => (e.currentTarget.style.boxShadow = elev1)}>
-
-                {/* Photo header with date overlay */}
-                <div style={{ height: 160, position: 'relative', overflow: 'hidden' }}>
-                  <img src={ev.img} alt=""
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,.15) 0%, rgba(0,0,0,.65) 100%)' }} />
-                  <div style={{ position: 'absolute', bottom: 16, left: 20, right: 20 }}>
-                    <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.14em', fontFamily: GS, marginBottom: 2 }}>
-                      {ev.type}
-                    </p>
-                    <p style={{ fontFamily: GS, fontSize: 30, fontWeight: 700, color: '#fff', lineHeight: 1 }}>{ev.date}</p>
-                  </div>
-                  <div style={{ position: 'absolute', top: 14, right: 16, display: 'flex', gap: 3 }}>
-                    <span style={{ width: 7, height: 7, borderRadius: '50%', background: ev.color, display: 'block', boxShadow: '0 0 0 2px rgba(255,255,255,0.4)' }} />
-                  </div>
-                </div>
-
-                {/* Card body */}
-                <div style={{ padding: '20px 24px 24px' }}>
-                  <h3 style={{ fontFamily: GS, fontSize: 15, fontWeight: 700, color: C.dark, marginBottom: 4 }}>{ev.title}</h3>
-                  <p style={{ fontSize: 12, color: C.mid, fontFamily: GST, marginBottom: 10 }}>{ev.location}</p>
-                  <p style={{ fontSize: 13, color: C.mid, lineHeight: 1.6, fontFamily: GST, marginBottom: 16 }}>{ev.desc}</p>
-                  <div className="flex items-center justify-between">
-                    <span style={{ display: 'inline-block', fontSize: 12, padding: '4px 12px', borderRadius: 50, background: `${ev.color}14`, color: ev.color, fontFamily: GS, fontWeight: 600 }}>
-                      {ev.spots}
-                    </span>
-                    <a href="#"
-                      style={{ fontSize: 13, fontWeight: 600, color: ev.color, textDecoration: 'none', fontFamily: GS }}>
-                      RSVP →
-                    </a>
-                  </div>
+                <img src={EVENTS[0].img} alt=""
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.72) 65%, rgba(0,0,0,0.88) 100%)' }} />
+                <div style={{ position: 'absolute', inset: 0, padding: '28px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                  <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.16em', fontFamily: GS, marginBottom: 6 }}>
+                    {EVENTS[0].type}
+                  </p>
+                  <h3 style={{ fontFamily: GS, fontSize: 'clamp(28px, 6vw, 72px)', fontWeight: 700, color: '#fff', lineHeight: 1, letterSpacing: '-1.5px', marginBottom: 4 }}>
+                    {EVENTS[0].date}
+                  </h3>
+                  <p className="text-sm lg:text-lg" style={{ fontFamily: GS, fontWeight: 600, color: '#fff', marginBottom: 4 }}>{EVENTS[0].title}</p>
+                  <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', fontFamily: GST, marginBottom: 20 }}>{EVENTS[0].location}</p>
+                  <span style={{ display: 'inline-block', alignSelf: 'flex-start', fontSize: 12, fontWeight: 700, padding: '5px 14px', borderRadius: 50, background: C.green, color: '#fff', fontFamily: GS }}>
+                    {EVENTS[0].spots}
+                  </span>
                 </div>
               </article>
-              </Reveal>
-            ))}
+            </Reveal>
+
+            {/* Two stacked smaller cards */}
+            <div className="flex flex-col" style={{ gap: 12 }}>
+              {EVENTS.slice(1).map((ev, i) => (
+                <Reveal key={ev.title} delay={(i + 1) * 0.1} style={{ flex: 1 }}>
+                  <article
+                    className="rounded-2xl overflow-hidden group cursor-pointer relative h-[220px] lg:h-full"
+                    style={{ boxShadow: elev1 }}
+                    onMouseEnter={e => (e.currentTarget.style.boxShadow = elev2)}
+                    onMouseLeave={e => (e.currentTarget.style.boxShadow = elev1)}>
+                    <img src={ev.img} alt=""
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.75) 100%)' }} />
+                    <div style={{ position: 'absolute', inset: 0, padding: '20px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                      <p style={{ fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.16em', fontFamily: GS, marginBottom: 4 }}>
+                        {ev.type}
+                      </p>
+                      <h3 style={{ fontFamily: GS, fontSize: 'clamp(28px, 3.5vw, 40px)', fontWeight: 700, color: '#fff', lineHeight: 1, letterSpacing: '-1px', marginBottom: 3 }}>
+                        {ev.date}
+                      </h3>
+                      <p style={{ fontFamily: GS, fontSize: 14, fontWeight: 600, color: '#fff', marginBottom: 3 }}>{ev.title}</p>
+                      <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', fontFamily: GST, marginBottom: 14 }}>{ev.location}</p>
+                      <span style={{
+                        display: 'inline-block', alignSelf: 'flex-start',
+                        fontSize: 11, fontWeight: 700, padding: '4px 12px', borderRadius: 50,
+                        background: ev.spots === 'Open to members' ? C.blue : C.green,
+                        color: '#fff', fontFamily: GS,
+                      }}>
+                        {ev.spots}
+                      </span>
+                    </div>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
